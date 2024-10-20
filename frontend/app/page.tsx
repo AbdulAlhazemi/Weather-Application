@@ -2,11 +2,11 @@
 
 import { useState, FormEvent } from 'react';
 import axios from 'axios';
-import styles from './page.module.css'; 
+import styles from './page.module.css'; // Import CSS module
 
 const WeatherPage = () => {
   const [location, setLocation] = useState('');
-  const [weatherData, setWeatherData] = useState(null);
+  const [weatherData, setWeatherData] = useState(null); // Adjust type as needed
   const [error, setError] = useState('');
 
   const fetchWeather = async (e: FormEvent<HTMLFormElement>) => {
@@ -14,21 +14,13 @@ const WeatherPage = () => {
     setError('');
     setWeatherData(null);
 
-    const apiKey = 'YOUR_API_KEY'; // Replace with your OpenWeatherMap API key
     try {
-      const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`
-      );
-      setWeatherData(response.data);
-
-      // Send weather data to the backend
-      await axios.post('http://localhost:5000/api/weather', {
-        location: weatherData.name,
-        temperature: response.data.main.temp,
-        condition: response.data.weather[0].description,
+      const response = await axios.get('http://localhost:5000/api/weather', {
+        params: { location }, // Send the location as a query parameter
       });
+      setWeatherData(response.data);
     } catch (err) {
-      console.error(err);
+      console.error(err); // Log the error for debugging
       setError('Location not found. Please try again.');
     }
   };
