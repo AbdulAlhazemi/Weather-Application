@@ -1,11 +1,16 @@
 import { Router, Request, Response } from 'express';
 import axios from 'axios';
+import * as dotenv from 'dotenv';
 
+
+dotenv.config(); 
 
 
 const router = Router();
-const apiKey = '87bc0e613dc2b73383fc41284e4c2f04'; // Replace with your OpenWeatherMap API key
+const apiKey = process.env.WEATHER_API_KEY;
 
+
+console.log(`Your weather API key is: ${apiKey}`);
 // Define the route for fetching weather data
 router.get('/weather', async (req: Request, res: Response) => {
   const location = req.query.location as string;

@@ -1,9 +1,16 @@
 import * as express from 'express';
 import * as cors from 'cors';
 import weatherRouter from './routes/weather'; // Adjust path if necessary
+import * as dotenv from 'dotenv';
+
+dotenv.config(); 
+console.log(process.env); // Debug: Check if environment variables are loaded
+console.log(`Your weather API key is: ${process.env.WEATHER_API_KEY}`);
+
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT;
+
 
 // Middleware
 app.use(cors());
