@@ -133,3 +133,6 @@ dist
 
 # local env files
 .env*.local
+
+# Ignore environment variables file
+.env
