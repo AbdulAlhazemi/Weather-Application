@@ -15,7 +15,7 @@ const WeatherPage = () => {
     setWeatherData(null);
 
     try {
-      const response = await axios.get('http://localhost:5000/api/weather', {
+      const response = await axios.get('http://localhost:4000/api/weather', {
         params: { location }, // Send the location as a query parameter
       });
       setWeatherData(response.data);
