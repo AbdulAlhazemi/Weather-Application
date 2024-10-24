@@ -15,28 +15,32 @@ if (apiKey) {
 }
 
 // Define the route for fetching weather data
-router.get('/weather', async (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
+  console.log('Received request:', req.query);
   const location = req.query.location as string;
 
   if (!location || typeof location !== 'string' || location.trim() === '') {
-    return res.status(400).json({ message: 'Location is required and must be a valid string.' });
+    res.status(400).json({ message: 'Location is required and must be a valid string.' });
+    return;
   }
 
   try {
     const response = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`
     );
+
+    // Send the weather data back to the client
     res.status(200).json(response.data);
-  } catch (err) {
+  } catch (err: any) {
     if (err.response) {
       console.error('Error response:', err.response.data);
-      return res.status(err.response.status).json({ message: err.response.data.message });
+      res.status(err.response.status).json({ message: err.response.data.message });
     } else if (err.request) {
       console.error('Error request:', err.request);
-      return res.status(500).json({ message: 'Network error. Please try again later.' });
+      res.status(500).json({ message: 'Network error. Please try again later.' });
     } else {
       console.error('Error message:', err.message);
-      return res.status(500).json({ message: 'An error occurred. Please try again later.' });
+      res.status(500).json({ message: 'An error occurred. Please try again later.' });
     }
   }
 });

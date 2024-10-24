@@ -2,11 +2,9 @@ import * as express from 'express';
 import * as cors from 'cors';
 import weatherRouter from './routes/weather'; // Adjust path if necessary
 import * as dotenv from 'dotenv';
+import * as bodyParser from 'body-parser'
 
 dotenv.config(); 
-//console.log(process.env); // Debug: Check if environment variables are loaded
-//console.log(`Your weather API key is: ${process.env.WEATHER_API_KEY}`);
-
 
 const app = express();
 const PORT = process.env.PORT || 4000; // Default to 4000 if not defined
@@ -18,7 +16,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type'], // Headers that can be used in requests
 }));
-app.use(express.json()); // Use Express's built-in JSON parser
+app.use(bodyParser.json());
 app.use('/weather', weatherRouter); // Adjust the route as needed
 
 app.listen(PORT, () => {
