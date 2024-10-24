@@ -1,12 +1,23 @@
-"use client"
+"use client";
 
 import { useState, FormEvent } from 'react';
 import axios from 'axios';
 import styles from './page.module.css'; // Import CSS module
 
+// Define the WeatherData interface
+interface WeatherData {
+  name: string; // City name
+  main: {
+    temp: number; // Temperature
+  };
+  weather: {
+    description: string; // Weather description
+  }[];
+}
+
 const WeatherPage = () => {
   const [location, setLocation] = useState('');
-  const [weatherData, setWeatherData] = useState(null); // Adjust type as needed
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [error, setError] = useState('');
 
   const fetchWeather = async (e: FormEvent<HTMLFormElement>) => {
@@ -15,12 +26,12 @@ const WeatherPage = () => {
     setWeatherData(null);
 
     try {
-      const response = await axios.get('http://localhost:4000/api/weather', {
-        params: { location }, // Send the location as a query parameter
+      const response = await axios.get('http://localhost:4000/weather', {
+        params: { location },
       });
       setWeatherData(response.data);
     } catch (err) {
-      console.error(err); // Log the error for debugging
+      console.error(err);
       setError('Location not found. Please try again.');
     }
   };

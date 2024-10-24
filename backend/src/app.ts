@@ -13,7 +13,11 @@ const PORT = process.env.PORT;
 
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow requests only from this origin (frontend)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type'], // Headers that can be used in requests
+}));
 app.use(express.json()); // Use Express's built-in JSON parser
 app.use('/api/weather', weatherRouter); // Adjust the route as needed
 
